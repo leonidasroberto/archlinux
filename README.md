@@ -41,7 +41,7 @@ chsh
 ```sh
 alias snapshot="sudo btrfs subvolume snapshot -r / ~/.snapshots/(date +%Y-%m-%d_%H-%M)"
 function restore_snapshot --arhument-names snapshot
-    set snapid (sudo btrfs subvolume show /$sumapastahome/.snapshots/$snapshot)
+    set snapid (sudo btrfs subvolume show ~/.snapshots/$snapshot)
     sudo btrfs subvoluume set-default $snapid
     sudo reboot
 end
