@@ -20,7 +20,7 @@ sudo nano /etc/lightdm/lightdm.conf.d/99-autologin.conf
 3. **Adicione no 99-autologin.conf**
 ```
 [Seat:*]
-autologin-user = yourusername
+autologin-user = seu_nome_de_usuario
 autologin-user-timeout = 0
 ```
 
@@ -38,8 +38,13 @@ chsh
 ```
 
 ### Deixe o seu ~/.config/fish/config.fish assim
-```
+```sh
 alias snapshot="sudo btrfs subvolume snapshot -r / ~/.snapshots/(date +%Y-%m-%d_%H-%M)"
+function restore_snapshot --arhument-names snapshot
+    set snapid (sudo btrfs subvolume show /$sumapastahome/.snapshots/$snapshot)
+    sudo btrfs subvoluume set-default $snapid
+    sudo reboot
+end
 function delete_snapshot --argument-names snapshot
     sudo btrfs subvolume delete ~/.snapshots/$snapshot
 end
@@ -47,6 +52,18 @@ end
 if status is-interactive
     set fish_greeting
 end
+```
+### Para criar uma nova snapshot:
+```sh
+snapshot
+```
+### Para deletar uma snapshot:
+```sh
+delete_snapshot nome_snapshot
+```
+### Para restaurar uma snapshot:
+```sh
+restore_snapshot nome_snapshot
 ```
 
 ### Criar arquivo config do o Sway
